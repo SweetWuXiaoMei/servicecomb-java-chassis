@@ -51,11 +51,11 @@
     </dependency>
 
     <!-- will not update anymore, only for testing -->
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <scope>test</scope>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.google.protobuf</groupId>-->
+<!--      <artifactId>protobuf-java</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
 
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
