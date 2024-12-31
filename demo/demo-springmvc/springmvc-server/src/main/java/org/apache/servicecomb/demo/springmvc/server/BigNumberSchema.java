@@ -15,38 +15,31 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.samples;
+package org.apache.servicecomb.demo.springmvc.server;
 
-import org.apache.servicecomb.provider.pojo.RpcReference;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestSchema(schemaId = "ConsumerController")
-@RequestMapping(path = "/")
-public class ConsumerController {
-  @RpcReference(schemaId = "ProviderController", microserviceName = "provider")
-  private ProviderService providerService;
-
-  // consumer service which delegate the implementation to provider service.
-  @GetMapping("/sayHello")
-  public String sayHello(@RequestParam("name") String name) {
-    return providerService.sayHello(name);
+@RestSchema(schemaId = "BigNumberSchema")
+@RequestMapping("/bigNumber")
+public class BigNumberSchema {
+  @PostMapping(path = "/integer", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  public BigInteger bigInteger(@RequestHeader("intHeader") BigInteger intHeader,
+      @RequestParam("intQuery") BigInteger intQuery, @RequestAttribute("intForm") BigInteger intForm) {
+    return intHeader.add(intQuery).add(intForm);
   }
 
-  @GetMapping("/getConfig")
-  public String getConfig(@RequestParam("key") String key) {
-    return providerService.getConfig(key);
-  }
-
-  @PostMapping(path = "/testContentType", consumes = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseBody
-  public User testContentType(@RequestBody User user) {
-    return providerService.testContentType(user);
+  @PostMapping(path = "/decimal", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  public BigDecimal bigDecimal(@RequestHeader("decimalHeader") BigDecimal decimalHeader,
+      @RequestParam("decimalQuery") BigDecimal decimalQuery, @RequestAttribute("decimalForm") BigDecimal decimalForm) {
+    return decimalHeader.add(decimalQuery).add(decimalForm);
   }
 }
